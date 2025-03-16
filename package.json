@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint . --ext .ts,.tsx",
     "preview": "vite preview",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint --ext .ts,.tsx,.js,.jsx src/",
+    "lint:fix": "eslint --ext .ts,.tsx,.js,.jsx src/ --fix"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.14",
@@ -16,6 +16,7 @@
     "eslint-config-react": "^1.1.7",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-typescript": "^3.9.0",
+    "eslint-plugin-prettier": "^5.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-is": "^19.0.0",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@typescript-eslint/eslint-plugin": "^8.26.1",

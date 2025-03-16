@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
 :root {
+    background: #0A101A;
     font-family: 'Inter', sans-serif;
+    color: #fff;
+    padding: 0 1rem;
+}
+
+#coinsTable th,
+#coinsTable td {
+    padding: 1rem;
 }

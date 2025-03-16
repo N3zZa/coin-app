@@ -4,7 +4,7 @@ import axios from 'axios';
 
 type PriceData = {
   time: string;
-  priceUsd: number;
+  priceUsd: string;
 };
 
 const ItemPage: React.FC = () => {
@@ -14,12 +14,17 @@ const ItemPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://api.coincap.io/v2/assets/bitcoin/history?interval=d1');
-        const priceData = response.data.data.map((entry: any) => ({
+        const response = await axios.get('https://api.coincap.io/v2/assets/bitcoin/history?interval=d1', {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`, // Passing API key in the Authorization header
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log(response.data.data);
+        const priceData = response.data.data.map((entry: PriceData) => ({
           time: new Date(entry.time).toLocaleDateString(),
           priceUsd: parseFloat(entry.priceUsd),
         }));
-        console.log(priceData)
         setData(priceData);
       } catch (error) {
         console.error('Error fetching data:', error);
