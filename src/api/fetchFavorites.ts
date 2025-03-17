@@ -5,24 +5,45 @@ type FetchAssetsParams = {
   favorites: string[];
   setAssets: React.Dispatch<React.SetStateAction<AssetItemModel[]>>;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const fetchFavorites = async ({ setAssets, favorites, setError }: FetchAssetsParams) => {
+export const fetchFavorites = async ({ setAssets, favorites, setError, setLoading }: FetchAssetsParams) => {
   try {
     if (favorites.length === 0) return;
-    const requests = favorites.map((id) =>
-      axios
-        .get(`https://api.coincap.io/v2/assets/${id}`, {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`, // Passing API key in the Authorization header
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((response) => response.data),
-    );
+    setLoading(true)
+    const API_KEY = import.meta.env.VITE_API_KEY;
+    const BATCH_SIZE = 5; // Количество запросов за раз
+    const DELAY = 1000; // Задержка между батчами в миллисекундах
 
-    const results = await Promise.all(requests);
-    const AssetsData = results.map((result) => result.data);
+    const results = [];
+
+    for (let i = 0; i < favorites.length; i += BATCH_SIZE) {
+      const batch = favorites.slice(i, i + BATCH_SIZE);
+
+      const requests = batch.map((id) =>
+        axios
+          .get(`https://api.coincap.io/v2/assets/${id}`, {
+            headers: {
+              Authorization: `Bearer ${API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+          })
+          .then((response) => response.data)
+          .catch((error) => console.error(`Failed to fetch ${id}`, error)),
+      );
+
+      const batchResults = await Promise.allSettled(requests);
+      results.push(...batchResults);
+
+      if (i + BATCH_SIZE < favorites.length) {
+        await new Promise((resolve) => setTimeout(resolve, DELAY));
+      }
+    }
+
+    const AssetsData = results
+      .filter((result) => result.status === 'fulfilled')
+      .map((result) => result.value.data);
 
     const assets = AssetsData.map((asset: AssetItemModel) => ({
       id: asset.id,
@@ -37,6 +58,7 @@ export const fetchFavorites = async ({ setAssets, favorites, setError }: FetchAs
       changePercent24Hr: Math.round(asset.changePercent24Hr * 100) / 100,
       vwap24Hr: asset.vwap24Hr,
     }));
+
     setAssets(assets);
   } catch (error) {
     if (error instanceof Error) {
@@ -45,5 +67,7 @@ export const fetchFavorites = async ({ setAssets, favorites, setError }: FetchAs
       }
     }
     console.error('Error fetching favorite assets: ', error);
+  } finally {
+    setLoading(false)
   }
 };

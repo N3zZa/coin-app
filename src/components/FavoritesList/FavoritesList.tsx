@@ -20,12 +20,11 @@ const FavoritesList = () => {
   const { favorites } = context;
 
   useEffect(() => {
-    setLoading(true);
-    fetchFavorites({ favorites, setAssets, setError });
-    setLoading(false);
+    fetchFavorites({ favorites, setAssets, setError, setLoading });
   }, []);
 
-  if (error !== null) {
+
+  if (error) {
     return (
       <div className="flex flex-col mx-auto max-w-fit mt-10 gap-4">
         <h1 className="text-2xl">Too many requests. Try again later.</h1>
@@ -38,7 +37,7 @@ const FavoritesList = () => {
 
   return (
     <div>
-      {assets.length === 0 ? (
+      {assets.length === 0 && !loading ? (
         <div className="flex flex-col mx-auto max-w-fit mt-10 gap-4">
           <h1 className="text-2xl">You haven't added anything to favorites</h1>
           <Link className="px-4 py-2 bg-[#0326A9] hover:bg-[#05259E] rounded cursor-pointer w-fit mx-auto" to={'/'}>

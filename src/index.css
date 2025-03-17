@@ -11,3 +11,34 @@
 #coinsTable td {
     padding: 1rem;
 }
+
+button {
+    cursor: pointer;
+}
+
+.btn-blue {
+    padding: 0.5rem 1rem;
+    background: #0326A9;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.btn-blue:hover {
+    background: #05259E;
+}
+
+.btn-gray {
+    padding: 0.5rem 1rem;
+    background: #282A38;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-gray:hover {
+    background: #343648;
+}
+
+.btn-gray:disabled {
+    opacity: 0.4;
+    cursor: default;
+    background: #282A38;
+}

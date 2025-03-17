@@ -61,21 +61,13 @@ const CoinsTable = ({ assets, loading }:CoinsTableProps) => {
         </tbody>
       </table>
       <div className="flex justify-between mt-4">
-        <button
-          onClick={handlePrevious}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-[#282A38] rounded disabled:opacity-40 disabled:cursor-default cursor-pointer"
-        >
+        <button onClick={handlePrevious} disabled={currentPage === 1} className="btn-gray">
           &lt;-
         </button>
         <p>
           Page {currentPage} of {totalPages}
         </p>
-        <button
-          onClick={handleNext}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-[#282A38] rounded disabled:opacity-40 disabled:cursor-default cursor-pointer"
-        >
+        <button onClick={handleNext} disabled={currentPage === totalPages} className="btn-gray">
           -&gt;
         </button>
       </div>

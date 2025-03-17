@@ -22,13 +22,13 @@ const AssetItem = ({ asset, currentPage, itemsPerPage, index }: Props) => {
   const { toggleFavorite, isFavorite } = context;
 
   const handleAddClick = (event: React.MouseEvent<HTMLButtonElement>, asset: AssetItemModel) => {
-    event.stopPropagation(); // Останавливает всплытие клика
+    event.stopPropagation();
     toggleFavorite(asset);
   };
 
   return (
     <tr
-      onClick={() => navigate(`${routesPaths.coin}${asset.id}`)}
+      onClick={() => navigate(`${routesPaths.coin}${asset.id}`, { state: { id: asset.id } })}
       key={asset.id}
       className="items-center border-y-[1px] border-[#41403E] h-[80px] hover:bg-[#1B1E27] cursor-pointer"
     >
@@ -51,17 +51,14 @@ const AssetItem = ({ asset, currentPage, itemsPerPage, index }: Props) => {
         <td>
           <button
             onClick={(e) => handleAddClick(e, asset)}
-            className="px-4 py-2 bg-[#0326A9] hover:bg-[#05259E] rounded cursor-pointer"
+            className="btn-blue"
           >
             remove
           </button>
         </td>
       ) : (
         <td>
-          <button
-            onClick={(e) => handleAddClick(e, asset)}
-            className="px-4 py-2 bg-[#0326A9] hover:bg-[#05259E] rounded cursor-pointer"
-          >
+          <button onClick={(e) => handleAddClick(e, asset)} className="btn-blue">
             Add
           </button>
         </td>
