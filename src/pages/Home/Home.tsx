@@ -6,7 +6,7 @@ import { AssetItemModel } from "types/AssetItemModel";
 const Home = () => {
    const [assets, setAssets] = useState<AssetItemModel[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<boolean>(true);
+    const [error, setError] = useState<string|null>(null);
 
    useEffect(() => {
      fetchCoins({ setAssets, setLoading, setError });
@@ -15,7 +15,7 @@ const Home = () => {
    if (error) {
     return (
       <main className="HomePage">
-        <h1>Error!</h1>
+        <h1>{error}</h1>
       </main>
     );
    }

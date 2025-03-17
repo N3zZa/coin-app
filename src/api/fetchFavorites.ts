@@ -12,7 +12,6 @@ export const fetchFavorites = async ({ setAssets, favorites, setError, setLoadin
   try {
     if (favorites.length === 0) return;
     setLoading(true)
-    const API_KEY = import.meta.env.VITE_API_KEY;
     const BATCH_SIZE = 5; // Количество запросов за раз
     const DELAY = 1000; // Задержка между батчами в миллисекундах
 
@@ -23,12 +22,7 @@ export const fetchFavorites = async ({ setAssets, favorites, setError, setLoadin
 
       const requests = batch.map((id) =>
         axios
-          .get(`https://api.coincap.io/v2/assets/${id}`, {
-            headers: {
-              Authorization: `Bearer ${API_KEY}`,
-              'Content-Type': 'application/json',
-            },
-          })
+          .get(`https://api.coincap.io/v2/assets/${id}`)
           .then((response) => response.data)
           .catch((error) => console.error(`Failed to fetch ${id}`, error)),
       );

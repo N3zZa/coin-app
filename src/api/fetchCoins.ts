@@ -4,12 +4,12 @@ import { AssetItemModel } from 'types/AssetItemModel';
 type FetchAssetsParams = {
   setAssets: React.Dispatch<React.SetStateAction<AssetItemModel[]>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setError: React.Dispatch<React.SetStateAction<boolean>>;
+  setError: React.Dispatch<React.SetStateAction<string|null>>;
 };
 
 export const fetchCoins = async ({ setAssets, setLoading, setError }: FetchAssetsParams) => {
   try {
-      setError(false);
+      setError(null);
       setLoading(true);
     const response = await axios.get('https://api.coincap.io/v2/assets', {
       headers: {
@@ -32,7 +32,12 @@ export const fetchCoins = async ({ setAssets, setLoading, setError }: FetchAsset
     }));
     setAssets(assetItems);
   } catch (error) {
-    setError(true);
+
+    if (error instanceof Error) {
+      if (error.message.includes('429')) {
+        setError('Too many requests');
+      }
+    }
     console.error('Error fetching data assets:', error);
   } finally {
     setTimeout(() => {
