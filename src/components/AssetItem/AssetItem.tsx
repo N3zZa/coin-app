@@ -1,5 +1,5 @@
 import Button from 'components/Button/Button';
-import { FavoritesContext } from 'context/FavoritesContext';
+import { CoinsContext } from 'context/coinsContext';
 import { routesPaths } from 'pages/routes';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router';
@@ -13,18 +13,18 @@ type Props = {
 };
 
 const AssetItem = ({ asset, currentPage, itemsPerPage, index }: Props) => {
-  const context = useContext(FavoritesContext);
+  const context = useContext(CoinsContext);
   const navigate = useNavigate();
 
   if (!context) {
-    throw new Error('FavoritesContext используется вне FavoritesProvider');
+    throw new Error('CoinsContext используется вне CoinsProvider');
   }
 
-  const { toggleFavorite, isFavorite } = context;
+  const { togglePortfolioItem, isInPortfolio } = context;
 
   const handleAddClick = (event: React.MouseEvent<HTMLButtonElement>, asset: AssetItemModel) => {
     event.stopPropagation();
-    toggleFavorite(asset);
+    togglePortfolioItem(asset);
   };
 
   return (
@@ -48,15 +48,15 @@ const AssetItem = ({ asset, currentPage, itemsPerPage, index }: Props) => {
       <td>${Number(asset.priceUsd)}</td>
       <td>{Number(asset.changePercent24Hr)}%</td>
       <td>${Number(asset.marketCapUsd)}</td>
-      {isFavorite(asset.id) ? (
+      {isInPortfolio(asset.id) ? (
         <td>
-          <Button variant="blue" onClick={(e) => handleAddClick(e, asset)} >
+          <Button variant="blue" onClick={(e) => handleAddClick(e, asset)}>
             remove
           </Button>
         </td>
       ) : (
         <td>
-          <Button variant="blue" onClick={(e) => handleAddClick(e, asset)} >
+          <Button variant="blue" onClick={(e) => handleAddClick(e, asset)}>
             Add
           </Button>
         </td>

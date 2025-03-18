@@ -4,8 +4,8 @@ import { useFetchCoinData } from 'api/useFetchCoinData';
 import { useContext, useState } from 'react';
 import CircleLoader from 'components/CircleLoader/CircleLoader';
 import { AssetItemModel } from 'types/AssetItemModel';
-import { FavoritesContext } from 'context/FavoritesContext';
 import Button from 'components/Button/Button';
+import { CoinsContext } from 'context/coinsContext';
 
 
 
@@ -18,18 +18,18 @@ const ItemPage: React.FC = () => {
   const coinData = useFetchCoinData(state.id, "coin");
   const asset = coinData.assets[0]
 
-    const context = useContext(FavoritesContext);
+    const context = useContext(CoinsContext);
   
     if (!context) {
       throw new Error('FavoritesContext используется вне FavoritesProvider');
     }
   
-    const { toggleFavorite, isFavorite } = context;
+    const { togglePortfolioItem, isInPortfolio } = context;
  
   if (coinData.loading || asset === undefined) return <div>Loading...</div>;
 
     const handleAddClick = (asset: AssetItemModel) => {
-      toggleFavorite(asset);
+      togglePortfolioItem(asset);
     };
 
  
@@ -39,7 +39,7 @@ const ItemPage: React.FC = () => {
     <div className="w-full h-96 p-0 md:p-4">
       {coinData.error || (coinHistory.error && <h1>Error!</h1>)}
       <div className="mb-5">
-        <Button onClick={() => navigate('/')} className="mb-6">
+        <Button onClick={() => navigate(-1)} className="mb-6">
           &lt;-
         </Button>
         <div className="flex items-center gap-2 m-auto">
@@ -52,7 +52,7 @@ const ItemPage: React.FC = () => {
             {asset?.name} <span className="opacity-50 mx-1">{asset?.symbol}</span>
           </h1>
 
-          {isFavorite(asset.id) ? (
+          {isInPortfolio(asset.id) ? (
             <Button variant="blue" onClick={() => handleAddClick(asset)}>
               Remove
             </Button>
@@ -74,8 +74,8 @@ const ItemPage: React.FC = () => {
         {['d1', 'h12', 'h1'].map((int) => (
           <Button
             key={int}
+            variant={interval === int ? 'blue' : 'gray'}
             onClick={() => setInterval(int as 'd1' | 'h12' | 'h1')}
-            className={`${interval === int ? 'bg-blue-500 text-white' : ''}`}
           >
             {int}
           </Button>

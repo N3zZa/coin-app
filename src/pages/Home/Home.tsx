@@ -1,21 +1,19 @@
 import CoinsTable from 'components/CoinsTable/CoinsTable';
-import { useEffect, useState } from 'react';
-/* import { fetchCoins } from 'api/fetchCoins'; */
+import { useContext } from 'react';
 import { AssetItemModel } from 'types/AssetItemModel';
-
-/*  */
-import { assets } from 'constants/assets';
+import { CoinsContext } from 'context/coinsContext';
 
 const Home = () => {
-  /*  const [assets, setAssets] = useState<AssetItemModel[]>([]); */
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    setLoading(false);
-    setError(null);
-    /* fetchCoins({ setAssets, setLoading, setError }); */
-  }, []);
+  const context = useContext(CoinsContext);
+
+  if (!context) {
+    throw new Error('CoinsContext используется вне CoinsProvider');
+  }
+
+  const { assets,loading,error } = context;
+
+
 
   if (error) {
     return (

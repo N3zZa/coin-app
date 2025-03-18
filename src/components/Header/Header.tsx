@@ -1,12 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import favoriteImg from 'assets/fav.svg';
 import homeImg from 'assets/home.svg';
 import { Link } from 'react-router'; // Было неправильно 'react-router'
 import { AssetItemModel } from 'types/AssetItemModel';
 import axios from 'axios';
 import CircleLoader from 'components/CircleLoader/CircleLoader';
+import Button from 'components/Button/Button';
+import { CoinsContext } from 'context/coinsContext';
+import PortfolioModal from 'components/Modal/PortfolioModal';
 
 const Header: React.FC = () => {
+
+  const context = useContext(CoinsContext);
+
+  if (!context) {
+    throw new Error('Coin context error');
+  }
+  const { portfolioCoinsId, portfolioPrice } = context;
+  
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const [assets, setAssets] = useState<AssetItemModel[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -58,6 +71,10 @@ const Header: React.FC = () => {
     fetchCoins();
   }, []);
 
+  const handleModal = () => {
+    setIsModalOpen(true)
+  }
+
   return (
     <header className="p-4">
       <div className="flex items-center justify-between">
@@ -85,9 +102,13 @@ const Header: React.FC = () => {
             )}
           </ul>
         </nav>
-        <Link to={'/favorites'}>
+        {isModalOpen && (
+          <PortfolioModal setIsOpen={setIsModalOpen} isOpen={isModalOpen} coins={portfolioCoinsId} title="Portfolio" />
+        )}
+        <Button onClick={handleModal} className="flex items-center gap-1" variant="gray">
+          <p>${portfolioPrice}</p>
           <img width={30} src={favoriteImg} alt="fav" />
-        </Link>
+        </Button>
       </div>
     </header>
   );
