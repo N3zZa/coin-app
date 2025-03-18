@@ -66,5 +66,11 @@ export const useFetchCoinData = (id: string, fetchType: 'coin' | 'history', inte
     }
   }, [id, fetchType, interval]);
 
+    useEffect(() => {
+      if (error) {
+        console.log(error)
+      }
+    }, [error]);
+
   return { assets, history, loading, error };
 };

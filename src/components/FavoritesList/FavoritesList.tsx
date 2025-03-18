@@ -5,9 +5,11 @@ import { useContext } from 'react';
 import { fetchFavorites } from 'api/fetchFavorites';
 import { AssetItemModel } from 'types/AssetItemModel';
 import CoinsTable from 'components/CoinsTable/CoinsTable';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import Button from 'components/Button/Button';
 
 const FavoritesList = () => {
+  const navigate = useNavigate();
   const [assets, setAssets] = useState<AssetItemModel[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -40,9 +42,9 @@ const FavoritesList = () => {
       {assets.length === 0 && !loading ? (
         <div className="flex flex-col mx-auto max-w-fit mt-10 gap-4">
           <h1 className="text-2xl">You haven't added anything to favorites</h1>
-          <Link className="px-4 py-2 bg-[#0326A9] hover:bg-[#05259E] rounded cursor-pointer w-fit mx-auto" to={'/'}>
+          <Button className='w-fit mx-auto' variant='blue' onClick={() => navigate('/')}>
             Back
-          </Link>
+          </Button>
         </div>
       ) : (
         <CoinsTable assets={assets} loading={loading} />

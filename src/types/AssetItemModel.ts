@@ -1,4 +1,4 @@
-export type AssetItemModel = {
+/* export type AssetItemModel = {
   id: string;
   rank: number;
   symbol: string;
@@ -10,4 +10,17 @@ export type AssetItemModel = {
   priceUsd: number;
   changePercent24Hr: number;
   vwap24Hr: number;
+}; */
+export type AssetItemModel = {
+  id: string;
+  rank: string;
+  symbol: string;
+  name: string;
+  supply: string;
+  maxSupply: string;
+  marketCapUsd: number;
+  volumeUsd24Hr: string;
+  priceUsd: number;
+  changePercent24Hr: number;
+  vwap24Hr: string;
 };

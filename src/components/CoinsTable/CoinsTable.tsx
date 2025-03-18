@@ -2,6 +2,7 @@ import CircleLoader from 'components/CircleLoader/CircleLoader';
 import { useState } from 'react';
 import { AssetItemModel } from 'types/AssetItemModel';
 import AssetItem from 'components/AssetItem/AssetItem';
+import Button from 'components/Button/Button';
 
 type CoinsTableProps = {
   assets: AssetItemModel[];
@@ -61,15 +62,15 @@ const CoinsTable = ({ assets, loading }:CoinsTableProps) => {
         </tbody>
       </table>
       <div className="flex justify-between mt-4">
-        <button onClick={handlePrevious} disabled={currentPage === 1} className="btn-gray">
+        <Button onClick={handlePrevious} disabled={currentPage === 1}>
           &lt;-
-        </button>
+        </Button>
         <p>
           Page {currentPage} of {totalPages}
         </p>
-        <button onClick={handleNext} disabled={currentPage === totalPages} className="btn-gray">
+        <Button onClick={handleNext} disabled={currentPage === totalPages}>
           -&gt;
-        </button>
+        </Button>
       </div>
     </div>
   );

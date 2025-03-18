@@ -1,3 +1,4 @@
+import Button from 'components/Button/Button';
 import { FavoritesContext } from 'context/FavoritesContext';
 import { routesPaths } from 'pages/routes';
 import React, { useContext } from 'react';
@@ -49,18 +50,15 @@ const AssetItem = ({ asset, currentPage, itemsPerPage, index }: Props) => {
       <td>${Number(asset.marketCapUsd)}</td>
       {isFavorite(asset.id) ? (
         <td>
-          <button
-            onClick={(e) => handleAddClick(e, asset)}
-            className="btn-blue"
-          >
+          <Button variant="blue" onClick={(e) => handleAddClick(e, asset)} >
             remove
-          </button>
+          </Button>
         </td>
       ) : (
         <td>
-          <button onClick={(e) => handleAddClick(e, asset)} className="btn-blue">
+          <Button variant="blue" onClick={(e) => handleAddClick(e, asset)} >
             Add
-          </button>
+          </Button>
         </td>
       )}
     </tr>

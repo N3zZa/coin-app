@@ -5,6 +5,7 @@ import { useContext, useState } from 'react';
 import CircleLoader from 'components/CircleLoader/CircleLoader';
 import { AssetItemModel } from 'types/AssetItemModel';
 import { FavoritesContext } from 'context/FavoritesContext';
+import Button from 'components/Button/Button';
 
 
 
@@ -30,15 +31,17 @@ const ItemPage: React.FC = () => {
     const handleAddClick = (asset: AssetItemModel) => {
       toggleFavorite(asset);
     };
+
+ 
   
 
   return (
     <div className="w-full h-96 p-0 md:p-4">
-      {coinData.error || coinHistory.error && <h1>Error!</h1>}
+      {coinData.error || (coinHistory.error && <h1>Error!</h1>)}
       <div className="mb-5">
-        <button onClick={() => navigate('/')} className="btn-gray mb-6">
+        <Button onClick={() => navigate('/')} className="mb-6">
           &lt;-
-        </button>
+        </Button>
         <div className="flex items-center gap-2 m-auto">
           <img
             width={40}
@@ -48,15 +51,15 @@ const ItemPage: React.FC = () => {
           <h1 className="text-2xl font-bold">
             {asset?.name} <span className="opacity-50 mx-1">{asset?.symbol}</span>
           </h1>
-          
+
           {isFavorite(asset.id) ? (
-            <button onClick={() => handleAddClick(asset)} className="btn-blue">
+            <Button variant="blue" onClick={() => handleAddClick(asset)}>
               Remove
-            </button>
+            </Button>
           ) : (
-            <button onClick={() => handleAddClick(asset)} className="btn-blue">
+            <Button variant="blue" onClick={() => handleAddClick(asset)}>
               Add
-            </button>
+            </Button>
           )}
         </div>
         <ul className="flex flex-col gap-2 mt-2">
@@ -69,13 +72,13 @@ const ItemPage: React.FC = () => {
       </div>
       <div className="flex gap-4 mb-4">
         {['d1', 'h12', 'h1'].map((int) => (
-          <button
+          <Button
             key={int}
             onClick={() => setInterval(int as 'd1' | 'h12' | 'h1')}
-            className={`btn-gray ${interval === int ? 'bg-blue-500 text-white' : ''}`}
+            className={`${interval === int ? 'bg-blue-500 text-white' : ''}`}
           >
             {int}
-          </button>
+          </Button>
         ))}
       </div>
       <h1 className="text-xl font-bold">Price Chart ({interval})</h1>
