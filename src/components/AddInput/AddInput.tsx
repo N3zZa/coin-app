@@ -11,7 +11,7 @@ interface InputProps {
   coinPrice: number;
 }
 
-const Input: React.FC<InputProps> = ({
+const AddInput: React.FC<InputProps> = ({
   className = '',
   value = '',
   onChange,
@@ -44,4 +44,4 @@ const Input: React.FC<InputProps> = ({
   );
 };
 
-export default Input;
+export default AddInput;

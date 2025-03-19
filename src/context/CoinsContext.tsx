@@ -4,7 +4,6 @@ import { AssetItemModel } from 'types/AssetItemModel';
 import { PortfolioCoinsId } from 'types/PortfolioCoinsIdModel';
 import { LocalStorageService } from 'utils/localStorage';
 
-
 interface CoinsContextType {
   assets: AssetItemModel[];
   loading: boolean;
@@ -18,6 +17,7 @@ interface CoinsContextType {
   setPortfolioCoins: React.Dispatch<React.SetStateAction<AssetItemModel[]>>;
   initialPortfolioPrice: number;
   clearPortfolio: () => void;
+  removePortfolioCoin: (coinID: string) => void;
 }
 
 export const CoinsContext = createContext<CoinsContextType | undefined>(undefined);
@@ -34,17 +34,17 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     () => LocalStorageService.getItem<PortfolioCoinsId[]>(PORTFOLIOITEMS_KEY) || [],
   );
 
-
   const [portfolioPrice, setPortfolioPrice] = useState<number>(0);
 
-  const [initialPortfolioPrice, setInitialPortfolioPrice] = useState<number>(() => LocalStorageService.getItem<number>(INITIAL_PORTFOLIO_PRICE_KEY) || 0);
+  const [initialPortfolioPrice, setInitialPortfolioPrice] = useState<number>(
+    () => LocalStorageService.getItem<number>(INITIAL_PORTFOLIO_PRICE_KEY) || 0,
+  );
 
   const [portfolioCoins, setPortfolioCoins] = useState<AssetItemModel[]>([]);
 
   useEffect(() => {
     LocalStorageService.setItem(PORTFOLIOITEMS_KEY, portfolioCoinsId);
     LocalStorageService.setItem(INITIAL_PORTFOLIO_PRICE_KEY, initialPortfolioPrice);
-    
   }, [portfolioCoinsId, initialPortfolioPrice]);
 
   useEffect(() => {
@@ -65,23 +65,21 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   }, [assets]);
 
-  useEffect(() => { 
+  useEffect(() => {
     const getPortfolioPrice = () => {
-      return (  
-        portfolioCoins.reduce((acc, item) => {
-          const purchasePrice = Number(item.priceUsd);
-          return Number(acc) + purchasePrice;
-        }, 0)
-      );
+      return portfolioCoins.reduce((acc, item) => {
+        const purchasePrice = Number(item.priceUsd);
+        return Number(acc) + purchasePrice;
+      }, 0);
     };
 
     const currentPrice = getPortfolioPrice();
 
-     if (currentPrice > initialPortfolioPrice) {
-       const newInitialPrice = initialPortfolioPrice + (currentPrice - initialPortfolioPrice);
-       setInitialPortfolioPrice(newInitialPrice);
-     }
-  }, [portfolioCoins])
+    if (currentPrice > initialPortfolioPrice) {
+      const newInitialPrice = initialPortfolioPrice + (currentPrice - initialPortfolioPrice);
+      setInitialPortfolioPrice(newInitialPrice);
+    }
+  }, [portfolioCoins]);
 
   const addPortfolioItem = (asset: AssetItemModel, amount: number = 1) => {
     setPortfolioCoins((prev) =>
@@ -106,17 +104,24 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     });
   };
 
- const isInPortfolio = (assetId: string) => {
-   return portfolioCoinsId.some((item) => item.id === assetId);
- };
+  const isInPortfolio = (coinID: string) => {
+    return portfolioCoinsId.some((item) => item.id === coinID);
+  };
 
+  const removePortfolioCoin = (coinID: string) => {
+    setPortfolioCoins((prev) => prev.filter((item) => item.id !== coinID));
+    setPortfolioCoinsId((prev) =>
+      prev.filter((item) => item.id !== coinID)
+    );
+    setInitialPortfolioPrice(0);
+  };
 
   const clearPortfolio = () => {
-     setPortfolioCoins([]);
-     setPortfolioCoinsId([]);
-     setInitialPortfolioPrice(0);
-     LocalStorageService.removeItem(PORTFOLIOITEMS_KEY);
-     LocalStorageService.removeItem(INITIAL_PORTFOLIO_PRICE_KEY);
+    setPortfolioCoins([]);
+    setPortfolioCoinsId([]);
+    setInitialPortfolioPrice(0);
+    LocalStorageService.removeItem(PORTFOLIOITEMS_KEY);
+    LocalStorageService.removeItem(INITIAL_PORTFOLIO_PRICE_KEY);
   };
 
   return (
@@ -130,6 +135,7 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setPortfolioPrice,
         clearPortfolio,
         isInPortfolio,
+        removePortfolioCoin,
         portfolioPrice,
         initialPortfolioPrice,
         loading,

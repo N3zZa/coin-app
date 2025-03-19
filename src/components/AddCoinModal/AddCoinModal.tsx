@@ -1,8 +1,8 @@
 import Button from 'components/Button/Button';
-import Input from 'components/Input/Input';
 import { CoinsContext } from 'context/CoinsContext';
 import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react';
 import { AssetItemModel } from 'types/AssetItemModel';
+import AddInput from 'components/AddInput/AddInput';
 
 type ModalProps = {
   coinName: string;
@@ -99,7 +99,7 @@ const AddCoinModal = ({ asset, coinName, setIsOpen, isOpen }: ModalProps) => {
             </Button>
           </div>
           <div>
-            <Input
+            <AddInput
               coinPrice={asset.priceUsd}
               minAmount={1}
               maxAmount={100000}

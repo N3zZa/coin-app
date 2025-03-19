@@ -21,11 +21,18 @@ const AssetItem = ({ asset, currentPage, itemsPerPage, index }: Props) => {
     throw new Error('CoinsContext используется вне CoinsProvider');
   }
 
+  const { removePortfolioCoin } = context;
+
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
 
   const handleAddClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     setIsOpenModal(true)
+  };
+
+  const handleRemoveClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    removePortfolioCoin(asset.id);
   };
 
   return (
@@ -53,7 +60,9 @@ const AssetItem = ({ asset, currentPage, itemsPerPage, index }: Props) => {
         <td>
           <AddCoinModal asset={asset} isOpen={isOpenModal} setIsOpen={setIsOpenModal} coinName={asset.name} />
           {asset.amount ? (
-            asset.amount
+            <Button variant="blue" onClick={handleRemoveClick}>
+               Delete({asset.amount})
+            </Button>
           ) : (
             <Button variant="blue" onClick={handleAddClick}>
               Add

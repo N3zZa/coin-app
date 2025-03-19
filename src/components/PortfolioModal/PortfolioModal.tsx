@@ -30,9 +30,9 @@ const PortfolioModal = ({ title, coins, setIsOpen, isOpen }: ModalProps) => {
 
    useEffect(() => {
      if (coins) {
-      fetchFavorites({ favorites: coins, setAssets, setError, setLoading });
+       fetchFavorites({ favorites: coins, setAssets, setError, setLoading });
      }
-   }, []);
+   }, [coins]);
 
     const handleCloseModal = () => {
       setIsOpen(false);
@@ -68,6 +68,7 @@ const PortfolioModal = ({ title, coins, setIsOpen, isOpen }: ModalProps) => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }, [isOpen]);
+
   
     if (!isOpen) return null;
     return (
@@ -93,7 +94,7 @@ const PortfolioModal = ({ title, coins, setIsOpen, isOpen }: ModalProps) => {
                 <h1 className="text-2xl font-bold">{title}</h1>
                 {portfolioCoinsId.length > 0 && <Button onClick={handleClearPortfolio}>Clear</Button>}
               </div>
-              {assets.length === 0 && portfolioCoinsId.length === 0 && !loading ? (
+              {assets.length === 0 || portfolioCoinsId.length === 0 && !loading ? (
                 <div className="flex flex-col mx-auto max-w-fit mt-10 gap-4">
                   <h1 className="text-2xl">You haven't added anything to portfolio</h1>
                   <Button onClick={handleCloseModal} className="w-fit mx-auto" variant="blue">
