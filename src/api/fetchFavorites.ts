@@ -47,7 +47,7 @@ export const fetchFavorites = async ({ setAssets, favorites, setError, setLoadin
         marketCapUsd: Math.round(asset.marketCapUsd * 100) / 100,
         priceUsd: Math.round(asset.priceUsd * 100) / 100,
         changePercent24Hr: Math.round(asset.changePercent24Hr * 100) / 100,
-        amount: amount ? amount : 0,
+        amount: amount ? amount : 1,
       };});
 
     setAssets(assets);

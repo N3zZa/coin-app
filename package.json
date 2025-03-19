@@ -46,5 +46,10 @@
     "vite": "^6.2.0",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^5.1.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }

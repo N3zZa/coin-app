@@ -41,6 +41,7 @@ export const useFetchCoinData = (id: string, fetchType: 'coin' | 'history', inte
               priceUsd: Math.round(response.data.data.priceUsd * 100) / 100,
               changePercent24Hr: Math.round(response.data.data.changePercent24Hr * 100) / 100,
               vwap24Hr: response.data.data.vwap24Hr,
+              amount: 1,
             },
           ];
           setAssets(assetItems);
