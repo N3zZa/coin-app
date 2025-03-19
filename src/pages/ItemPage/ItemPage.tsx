@@ -1,42 +1,31 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { useLocation, useNavigate } from 'react-router';
 import { useFetchCoinData } from 'api/useFetchCoinData';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import CircleLoader from 'components/CircleLoader/CircleLoader';
-import { AssetItemModel } from 'types/AssetItemModel';
 import Button from 'components/Button/Button';
-import { CoinsContext } from 'context/coinsContext';
-
-
+import AddCoinModal from 'components/AddCoinModal/AddCoinModal';
 
 const ItemPage: React.FC = () => {
   const navigate = useNavigate();
-  const {state} = useLocation();
+  const { state } = useLocation();
   const [interval, setInterval] = useState<'d1' | 'h12' | 'h1'>('d1');
 
-  const coinHistory = useFetchCoinData(state.id, 'history', interval);
-  const coinData = useFetchCoinData(state.id, "coin");
-  const asset = coinData.assets[0]
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
-    const context = useContext(CoinsContext);
-  
-    if (!context) {
-      throw new Error('FavoritesContext используется вне FavoritesProvider');
-    }
-  
-    const { togglePortfolioItem, isInPortfolio } = context;
- 
+  const coinHistory = useFetchCoinData(state.id, 'history', interval);
+  const coinData = useFetchCoinData(state.id, 'coin');
+  const asset = coinData.assets[0];
+
   if (coinData.loading || asset === undefined) return <div>Loading...</div>;
 
-    const handleAddClick = (asset: AssetItemModel) => {
-      togglePortfolioItem(asset);
-    };
-
- 
-  
+  const handleAddClick = () => {
+    setIsOpenModal(true);
+  };
 
   return (
     <div className="w-full h-96 p-0 md:p-4">
+      <AddCoinModal asset={asset} isOpen={isOpenModal} setIsOpen={setIsOpenModal} coinName={asset.name} />
       {coinData.error || (coinHistory.error && <h1>Error!</h1>)}
       <div className="mb-5">
         <Button onClick={() => navigate(-1)} className="mb-6">
@@ -51,16 +40,9 @@ const ItemPage: React.FC = () => {
           <h1 className="text-2xl font-bold">
             {asset?.name} <span className="opacity-50 mx-1">{asset?.symbol}</span>
           </h1>
-
-          {isInPortfolio(asset.id) ? (
-            <Button variant="blue" onClick={() => handleAddClick(asset)}>
-              Remove
-            </Button>
-          ) : (
-            <Button variant="blue" onClick={() => handleAddClick(asset)}>
-              Add
-            </Button>
-          )}
+          <Button variant="blue" onClick={handleAddClick}>
+            Add
+          </Button>
         </div>
         <ul className="flex flex-col gap-2 mt-2">
           <li>Rank: {asset?.rank}</li>

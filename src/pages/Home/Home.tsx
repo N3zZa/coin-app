@@ -1,7 +1,7 @@
 import CoinsTable from 'components/CoinsTable/CoinsTable';
 import { useContext } from 'react';
 import { AssetItemModel } from 'types/AssetItemModel';
-import { CoinsContext } from 'context/coinsContext';
+import { CoinsContext } from 'context/CoinsContext';
 
 const Home = () => {
 
@@ -12,8 +12,6 @@ const Home = () => {
   }
 
   const { assets,loading,error } = context;
-
-
 
   if (error) {
     return (

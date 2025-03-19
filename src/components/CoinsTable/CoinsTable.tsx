@@ -36,7 +36,7 @@ const CoinsTable = ({ assets, loading }:CoinsTableProps) => {
             <th>#</th>
             <th>Name</th>
             <th>Price</th>
-            <th>24h %</th>
+            <th>24h%</th>
             <th>Market Cap(USD)</th>
             <th></th>
           </tr>

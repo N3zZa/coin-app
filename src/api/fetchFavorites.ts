@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { AssetItemModel } from 'types/AssetItemModel';
+import { PortfolioCoinsId } from 'types/PortfolioCoinsIdModel';
 
 type FetchAssetsParams = {
-  favorites: string[];
+  favorites: PortfolioCoinsId[];
   setAssets: React.Dispatch<React.SetStateAction<AssetItemModel[]>>;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +21,7 @@ export const fetchFavorites = async ({ setAssets, favorites, setError, setLoadin
     for (let i = 0; i < favorites.length; i += BATCH_SIZE) {
       const batch = favorites.slice(i, i + BATCH_SIZE);
 
-      const requests = batch.map((id) =>
+      const requests = batch.map(({id}) =>
         axios
           .get(`https://api.coincap.io/v2/assets/${id}`)
           .then((response) => response.data)
@@ -40,17 +41,11 @@ export const fetchFavorites = async ({ setAssets, favorites, setError, setLoadin
       .map((result) => result.value.data);
 
     const assets = AssetsData.map((asset: AssetItemModel) => ({
-      id: asset.id,
-      rank: asset.rank,
-      symbol: asset.symbol,
-      name: asset.name,
-      supply: asset.supply,
-      maxSupply: asset.maxSupply,
+      ...asset,
       marketCapUsd: Math.round(asset.marketCapUsd * 100) / 100,
-      volumeUsd24Hr: asset.volumeUsd24Hr,
       priceUsd: Math.round(asset.priceUsd * 100) / 100,
       changePercent24Hr: Math.round(asset.changePercent24Hr * 100) / 100,
-      vwap24Hr: asset.vwap24Hr,
+      amount: favorites.find((item) => item.id === asset.id)?.amount
     }));
 
     setAssets(assets);
