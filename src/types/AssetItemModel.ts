@@ -10,5 +10,5 @@ export type AssetItemModel = {
   priceUsd: number;
   changePercent24Hr: number;
   vwap24Hr: string;
-  amount?: number;
+  amount: number;
 };

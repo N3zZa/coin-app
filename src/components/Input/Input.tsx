@@ -6,13 +6,29 @@ interface InputProps {
   placeholder?: string;
   className?: string;
   type?: 'text' | 'password' | 'email' | 'number';
+  minAmount: number;
+  maxAmount: number;
+  coinPrice: number;
 }
 
-const Input: React.FC<InputProps> = ({ className = "",value = "", onChange, placeholder = '', type = 'text' }) => {
+const Input: React.FC<InputProps> = ({
+  className = '',
+  value = '',
+  onChange,
+  placeholder = '',
+  type = 'text',
+  minAmount,
+  maxAmount,
+  coinPrice,
+}) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (Number(event.target.value) > 0 || event.target.value === "") {
+    if (
+      (Number(event.target.value) > 0 || event.target.value === '') &&
+      coinPrice * Number(event.target.value) >= minAmount &&
+      coinPrice * Number(event.target.value) <= maxAmount
+    ) {
       onChange(event.target.value);
-    } 
+    }
   };
 
   return (
@@ -28,4 +44,4 @@ const Input: React.FC<InputProps> = ({ className = "",value = "", onChange, plac
   );
 };
 
-export default Input
+export default Input;

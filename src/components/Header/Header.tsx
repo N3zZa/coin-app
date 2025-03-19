@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import favoriteImg from 'assets/fav.svg';
 import homeImg from 'assets/home.svg';
 import { Link } from 'react-router';
 import CircleLoader from 'components/CircleLoader/CircleLoader';
@@ -54,7 +53,6 @@ const Header: React.FC = () => {
         )}
         <Button onClick={handleModal} className="flex items-center gap-1" variant="gray">
           <PortfolioInfo onClick={() => setIsModalOpen(true)} />
-          <img width={30} src={favoriteImg} alt="fav" />
         </Button>
       </div>
     </header>
