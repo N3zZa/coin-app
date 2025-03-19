@@ -40,13 +40,15 @@ export const fetchFavorites = async ({ setAssets, favorites, setError, setLoadin
       .filter((result) => result.status === 'fulfilled')
       .map((result) => result.value.data);
 
-    const assets = AssetsData.map((asset: AssetItemModel) => ({
-      ...asset,
-      marketCapUsd: Math.round(asset.marketCapUsd * 100) / 100,
-      priceUsd: Math.round(asset.priceUsd * 100) / 100,
-      changePercent24Hr: Math.round(asset.changePercent24Hr * 100) / 100,
-      amount: favorites.find((item) => item.id === asset.id)?.amount
-    }));
+    const assets = AssetsData.map((asset: AssetItemModel) => {
+      const amount = favorites.find((item) => item.id === asset.id)?.amount
+      return {
+        ...asset,
+        marketCapUsd: Math.round(asset.marketCapUsd * 100) / 100,
+        priceUsd: Math.round(asset.priceUsd * 100) / 100,
+        changePercent24Hr: Math.round(asset.changePercent24Hr * 100) / 100,
+        amount: amount ? amount : 0,
+      };});
 
     setAssets(assets);
   } catch (error) {
