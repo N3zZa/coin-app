@@ -10,9 +10,7 @@ export interface CoinsContextType {
   error: string | null;
   portfolioCoinsId: PortfolioCoinsId[];
   addPortfolioItem: (asset: AssetItemModel, amount: number) => void;
-  isInPortfolio: (asset: string) => boolean;
   portfolioPrice: number;
-  setPortfolioPrice: React.Dispatch<React.SetStateAction<number>>;
   portfolioCoins: AssetItemModel[];
   setPortfolioCoins: React.Dispatch<React.SetStateAction<AssetItemModel[]>>;
   initialPortfolioPrice: number;
@@ -57,6 +55,8 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setError(null);
     refeshCoins()
   }, []);
+
+  
   useEffect(() => {
     const filteredItemsPrice = assets
       .filter((item) => portfolioCoinsId.some((portfolioItem) => portfolioItem.id === item.id))
@@ -109,9 +109,9 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     });
   };
 
-  const isInPortfolio = (coinID: string) => {
+ /*  const isInPortfolio = (coinID: string) => {
     return portfolioCoinsId.some((item) => item.id === coinID);
-  };
+  }; */
 
   const removePortfolioCoin = (coinID: string) => {
     setPortfolioCoins((prev) => prev.filter((item) => item.id !== coinID));
@@ -138,9 +138,7 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         refeshCoins,
         setPortfolioCoins,
         addPortfolioItem,
-        setPortfolioPrice,
         clearPortfolio,
-        isInPortfolio,
         removePortfolioCoin,
         portfolioPrice,
         initialPortfolioPrice,
