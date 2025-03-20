@@ -1,6 +1,6 @@
 import Button from 'components/Button/Button';
 import { CoinsContext } from 'context/CoinsContext';
-import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { AssetItemModel } from 'types/AssetItemModel';
 import AddInput from 'components/AddInput/AddInput';
 
@@ -23,10 +23,13 @@ const AddCoinModal = ({ asset, coinName, setIsOpen, isOpen }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState<string>('1');
 
-  const handleCloseModal = (event?: React.MouseEvent<HTMLButtonElement>) => {
-    event?.stopPropagation();
-    setIsOpen(false);
-  };
+  const handleCloseModal = useCallback(
+    (event?: React.MouseEvent<HTMLButtonElement>) => {
+      event?.stopPropagation();
+      setIsOpen(false);
+    },
+    [setIsOpen],
+  );
 
   const handleModalClick = (e: React.MouseEvent) => e.stopPropagation();
 
@@ -53,11 +56,14 @@ const AddCoinModal = ({ asset, coinName, setIsOpen, isOpen }: ModalProps) => {
     setInputValue('1');
   };
 
-    const handleOutsideClick = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        handleCloseModal();
-      }
-    };
+    const handleOutsideClick = useCallback(
+      (e: MouseEvent) => {
+        if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+          handleCloseModal();
+        }
+      },
+      [handleCloseModal],
+    );
 
   useEffect(() => {
     if (isOpen) {
@@ -66,16 +72,16 @@ const AddCoinModal = ({ asset, coinName, setIsOpen, isOpen }: ModalProps) => {
       document.addEventListener('mouseup', handleOutsideClick);
     } else {
       document.body.style.overflow = '';
-      setInputValue("1")
+      setInputValue('1');
     }
-    
+
     return () => {
       document.body.style.overflow = '';
       document.removeEventListener('mousedown', handleOutsideClick);
       document.addEventListener('mouseup', handleOutsideClick);
-      setInputValue("1")
+      setInputValue('1');
     };
-  }, [isOpen]);
+  }, [isOpen, handleOutsideClick]);
 
   if (!isOpen) return null;
   return (

@@ -44,6 +44,7 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   useEffect(() => {
     LocalStorageService.setItem(PORTFOLIOITEMS_KEY, portfolioCoinsId);
     LocalStorageService.setItem(INITIAL_PORTFOLIO_PRICE_KEY, initialPortfolioPrice);
+
   }, [portfolioCoinsId, initialPortfolioPrice]);
 
   const refeshCoins = () => {
@@ -68,7 +69,7 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     if (filteredItemsPrice) {
       setPortfolioPrice(filteredItemsPrice);
     }
-  }, [assets]);
+  }, [assets, portfolioCoinsId]);
 
   useEffect(() => {
     const getPortfolioPrice = () => {
@@ -84,7 +85,7 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       const newInitialPrice = initialPortfolioPrice + (currentPrice - initialPortfolioPrice);
       setInitialPortfolioPrice(newInitialPrice);
     }
-  }, [portfolioCoins]);
+  }, [portfolioCoins, initialPortfolioPrice]);
 
   const addPortfolioItem = (asset: AssetItemModel, amount: number = 1) => {
     setPortfolioCoins((prev) =>
@@ -114,7 +115,9 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }; */
 
   const removePortfolioCoin = (coinID: string) => {
-    setPortfolioCoins((prev) => prev.filter((item) => item.id !== coinID));
+    setPortfolioCoins((prev) => prev.filter((item) => {
+      return item.id !== coinID;
+    }));
     setPortfolioCoinsId((prev) =>
       prev.filter((item) => item.id !== coinID)
     );
