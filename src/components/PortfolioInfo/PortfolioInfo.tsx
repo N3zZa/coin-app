@@ -28,6 +28,7 @@ const PortfolioInfo: React.FC<Props> = ({ onClick }) => {
 
   return (
     <div
+      id='portfolioInfo'
       onClick={onClick}
       className="cursor-pointer flex items-center gap-2 border px-3 py-2 rounded-xl hover:bg-gray-700"
     >
