@@ -26,7 +26,6 @@ const AddCoinModal = ({ asset, coinName, setIsOpen, isOpen }: ModalProps) => {
   const handleCloseModal = (event?: React.MouseEvent<HTMLButtonElement>) => {
     event?.stopPropagation();
     setIsOpen(false);
-    
   };
 
   const handleModalClick = (e: React.MouseEvent) => e.stopPropagation();
@@ -54,31 +53,27 @@ const AddCoinModal = ({ asset, coinName, setIsOpen, isOpen }: ModalProps) => {
     setInputValue('1');
   };
 
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = ''; // Возвращаем скролл при размонтировании
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleOutsideClick = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
         handleCloseModal();
       }
     };
 
+  useEffect(() => {
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'hidden';
+      document.addEventListener('mousedown', handleOutsideClick);
+      document.addEventListener('mouseup', handleOutsideClick);
+    } else {
+      document.body.style.overflow = '';
+      setInputValue("1")
     }
-
+    
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = '';
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.addEventListener('mouseup', handleOutsideClick);
+      setInputValue("1")
     };
   }, [isOpen]);
 

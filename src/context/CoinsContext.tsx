@@ -4,7 +4,7 @@ import { AssetItemModel } from 'types/AssetItemModel';
 import { PortfolioCoinsId } from 'types/PortfolioCoinsIdModel';
 import { LocalStorageService } from 'utils/localStorage';
 
-interface CoinsContextType {
+export interface CoinsContextType {
   assets: AssetItemModel[];
   loading: boolean;
   error: string | null;
@@ -18,6 +18,7 @@ interface CoinsContextType {
   initialPortfolioPrice: number;
   clearPortfolio: () => void;
   removePortfolioCoin: (coinID: string) => void;
+  refeshCoins: () => void;
 }
 
 export const CoinsContext = createContext<CoinsContextType | undefined>(undefined);
@@ -47,10 +48,14 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     LocalStorageService.setItem(INITIAL_PORTFOLIO_PRICE_KEY, initialPortfolioPrice);
   }, [portfolioCoinsId, initialPortfolioPrice]);
 
+  const refeshCoins = () => {
+    fetchCoins({ setAssets, setLoading, setError });
+  } 
+
   useEffect(() => {
     setLoading(false);
     setError(null);
-    fetchCoins({ setAssets, setLoading, setError });
+    refeshCoins()
   }, []);
   useEffect(() => {
     const filteredItemsPrice = assets
@@ -130,6 +135,7 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         assets,
         portfolioCoinsId,
         portfolioCoins,
+        refeshCoins,
         setPortfolioCoins,
         addPortfolioItem,
         setPortfolioPrice,
