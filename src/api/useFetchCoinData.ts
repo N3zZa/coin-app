@@ -3,6 +3,8 @@ import axios from 'axios';
 import { AssetItemModel } from 'types/AssetItemModel';
 import { GraphData } from 'types/GraphData';
 
+
+// function that needs to get info about one coin or get info about history of one coin
 export const useFetchCoinData = (id: string, fetchType: 'coin' | 'history', interval: 'd1' | 'h12' | 'h1' = 'd1') => {
   const [assets, setAssets] = useState<AssetItemModel[]>([]);
   const [history, setHistory] = useState<GraphData[]>([]);

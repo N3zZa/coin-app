@@ -1,4 +1,4 @@
-import { fetchFavorites } from 'api/fetchFavorites';
+import { fetchPortfolio } from 'api/fetchPortfolio';
 import Button from 'components/Button/Button';
 import CoinsTable from 'components/CoinsTable/CoinsTable';
 import { CoinsContext } from 'context/CoinsContext';
@@ -29,7 +29,7 @@ const PortfolioModal = ({ title, coins, setIsOpen, isOpen }: ModalProps) => {
 
   useEffect(() => {
     if (coins) {
-      fetchFavorites({ favorites: coins, setAssets, setError, setLoading });
+      fetchPortfolio({ favorites: coins, setAssets, setError, setLoading });
     }
   }, [coins]);
 

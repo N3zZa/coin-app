@@ -9,11 +9,13 @@ type FetchAssetsParams = {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const fetchFavorites = async ({ setAssets, favorites, setError, setLoading }: FetchAssetsParams) => {
+
+// function that needs to get portfolio items(using api)
+export const fetchPortfolio = async ({ setAssets, favorites, setError, setLoading }: FetchAssetsParams) => {
   try {
     if (favorites.length === 0) return;
-    console.log(favorites)
-    setLoading(true)
+    console.log(favorites);
+    setLoading(true);
     const BATCH_SIZE = 5; // Количество запросов за раз
     const DELAY = 1000; // Задержка между батчами в миллисекундах
 
@@ -22,7 +24,7 @@ export const fetchFavorites = async ({ setAssets, favorites, setError, setLoadin
     for (let i = 0; i < favorites.length; i += BATCH_SIZE) {
       const batch = favorites.slice(i, i + BATCH_SIZE);
 
-      const requests = batch.map(({id}) =>
+      const requests = batch.map(({ id }) =>
         axios
           .get(`https://api.coincap.io/v2/assets/${id}`)
           .then((response) => response.data)
@@ -37,19 +39,18 @@ export const fetchFavorites = async ({ setAssets, favorites, setError, setLoadin
       }
     }
 
-    const AssetsData = results
-      .filter((result) => result.status === 'fulfilled')
-      .map((result) => result.value.data);
+    const AssetsData = results.filter((result) => result.status === 'fulfilled').map((result) => result.value.data);
 
     const assets = AssetsData.map((asset: AssetItemModel) => {
-      const amount = favorites.find((item) => item.id === asset.id)?.amount
+      const amount = favorites.find((item) => item.id === asset.id)?.amount;
       return {
         ...asset,
         marketCapUsd: Math.round(asset.marketCapUsd * 100) / 100,
         priceUsd: Math.round(asset.priceUsd * 100) / 100,
         changePercent24Hr: Math.round(asset.changePercent24Hr * 100) / 100,
         amount: amount ? amount : 1,
-      };});
+      };
+    });
 
     setAssets(assets);
   } catch (error) {
@@ -58,9 +59,9 @@ export const fetchFavorites = async ({ setAssets, favorites, setError, setLoadin
         setError('Too many requests');
       }
     }
-    setAssets([])
+    setAssets([]);
     console.error('Error fetching favorite assets: ', error);
   } finally {
-    setLoading(false)
+    setLoading(false);
   }
 };

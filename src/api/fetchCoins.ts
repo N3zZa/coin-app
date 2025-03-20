@@ -7,6 +7,7 @@ type FetchAssetsParams = {
   setError: React.Dispatch<React.SetStateAction<string|null>>;
 };
 
+// function that needs to get coins from api
 export const fetchCoins = async ({ setAssets, setLoading, setError }: FetchAssetsParams) => {
   try {
       setError(null);
