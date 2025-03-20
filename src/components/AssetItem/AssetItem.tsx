@@ -59,7 +59,7 @@ const AssetItem = ({ asset, currentPage, itemsPerPage, index }: Props) => {
         <td>${Number(asset.marketCapUsd)}</td>
         <td>
           <AddCoinModal asset={asset} isOpen={isOpenModal} setIsOpen={setIsOpenModal} coinName={asset.name} />
-          {portfolioCoins.length > 0 ? (
+          {portfolioCoins.length > 0 || !asset.amount ? (
             asset.amount ? (
               <Button variant="blue" onClick={handleRemoveClick}>
                 Delete({asset.amount})

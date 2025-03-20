@@ -44,20 +44,18 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   useEffect(() => {
     LocalStorageService.setItem(PORTFOLIOITEMS_KEY, portfolioCoinsId);
     LocalStorageService.setItem(INITIAL_PORTFOLIO_PRICE_KEY, initialPortfolioPrice);
-
   }, [portfolioCoinsId, initialPortfolioPrice]);
 
   const refeshCoins = () => {
     fetchCoins({ setAssets, setLoading, setError });
-  } 
+  };
 
   useEffect(() => {
     setLoading(false);
     setError(null);
-    refeshCoins()
+    refeshCoins();
   }, []);
 
-  
   useEffect(() => {
     const filteredItemsPrice = assets
       .filter((item) => portfolioCoinsId.some((portfolioItem) => portfolioItem.id === item.id))
@@ -88,6 +86,7 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, [portfolioCoins, initialPortfolioPrice]);
 
   const addPortfolioItem = (asset: AssetItemModel, amount: number = 1) => {
+    setInitialPortfolioPrice((prev) => prev + asset.priceUsd);
     setPortfolioCoins((prev) =>
       prev.find((assetItem) => assetItem.id.toString() === asset.id.toString())
         ? prev.map((assetItem) =>
@@ -110,17 +109,13 @@ export const CoinsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     });
   };
 
- /*  const isInPortfolio = (coinID: string) => {
+  /*  const isInPortfolio = (coinID: string) => {
     return portfolioCoinsId.some((item) => item.id === coinID);
   }; */
 
   const removePortfolioCoin = (coinID: string) => {
-    setPortfolioCoins((prev) => prev.filter((item) => {
-      return item.id !== coinID;
-    }));
-    setPortfolioCoinsId((prev) =>
-      prev.filter((item) => item.id !== coinID)
-    );
+    setPortfolioCoins((prev) => prev.filter((item) => item.id !== coinID));
+    setPortfolioCoinsId((prev) => prev.filter((item) => item.id !== coinID));
     setInitialPortfolioPrice(0);
   };
 

@@ -18,7 +18,7 @@ const PortfolioInfo: React.FC<Props> = ({ onClick }) => {
   const [percentageDifference, setPercentageDifference] = useState<number>(0);
 
   useEffect(() => {
-    if (portfolioPrice > 0 && portfolioCoinsId.length > 0 && initialPortfolioPrice > 0) {
+    if (portfolioPrice > 0 && portfolioCoinsId.length > 0) {
       const difference = portfolioPrice - initialPortfolioPrice;
       const percentage = (difference / portfolioPrice) * 100;
       setPriceDifference(difference);

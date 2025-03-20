@@ -12,6 +12,7 @@ type FetchAssetsParams = {
 export const fetchFavorites = async ({ setAssets, favorites, setError, setLoading }: FetchAssetsParams) => {
   try {
     if (favorites.length === 0) return;
+    console.log(favorites)
     setLoading(true)
     const BATCH_SIZE = 5; // Количество запросов за раз
     const DELAY = 1000; // Задержка между батчами в миллисекундах
@@ -57,6 +58,7 @@ export const fetchFavorites = async ({ setAssets, favorites, setError, setLoadin
         setError('Too many requests');
       }
     }
+    setAssets([])
     console.error('Error fetching favorite assets: ', error);
   } finally {
     setLoading(false)

@@ -1,5 +1,5 @@
 
-type SearchInputProps = {
+export type SearchInputProps = {
   searchQuery: string;
   setSearchQuery: (newValue:string) => void;
 };
