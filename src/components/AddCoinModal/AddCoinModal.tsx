@@ -84,12 +84,12 @@ const AddCoinModal = ({ asset, coinName, setIsOpen, isOpen }: ModalProps) => {
       <div
         onClick={handleModalClick}
         ref={modalRef}
-        className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 bg-[#0A101A] border-[1px] border-[#41403E] rounded-xl p-4 pointer-events-auto"
+        className="fixed max-w-full w-[95%] sm:w-fit top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 bg-[#0A101A] border border-[#41403E] rounded-xl p-4 pointer-events-auto"
       >
         <div onClick={handleModalClick} className="max-h-[400px] overflow-auto">
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold">Введите количество {coinName}</h1>
-            <Button onClick={handleCloseModal} className="w-fit text-sm mx-auto" variant="gray">
+            <Button onClick={handleCloseModal} className="w-fit text-sm ml-auto" variant="gray">
               Close
             </Button>
           </div>

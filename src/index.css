@@ -42,3 +42,15 @@ button {
     cursor: default;
     background: #282A38;
 }
+
+@media(max-width: 820px) {
+    h1 {
+        font-size: 18px;
+    }
+    p {
+        font-size: 13px;
+    }
+    td {
+        font-size: 14px;
+    }
+}

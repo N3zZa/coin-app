@@ -76,7 +76,7 @@ const PortfolioModal = ({ title, coins, setIsOpen, isOpen }: ModalProps) => {
         <div className="fixed inset-0 bg-black opacity-50 flex items-center justify-center z-1 pointer-events-auto"></div>
         <div
           ref={modalRef}
-          className="fixed  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 bg-[#0A101A] border-[1px] border-[#41403E] rounded-xl p-4 pointer-events-auto"
+          className="fixed max-w-full w-[98%] sm:w-fit top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 bg-[#0A101A] border border-[#41403E] rounded-xl p-4 pointer-events-auto"
         >
           {error ? (
             <div className="flex flex-col mx-auto max-w-fit mt-10 gap-4">
@@ -94,7 +94,7 @@ const PortfolioModal = ({ title, coins, setIsOpen, isOpen }: ModalProps) => {
                 <h1 className="text-2xl font-bold">{title}</h1>
                 {portfolioCoinsId.length > 0 && <Button onClick={handleClearPortfolio}>Clear</Button>}
               </div>
-              {assets.length === 0 || portfolioCoinsId.length === 0 && !loading ? (
+              {assets.length === 0 || (portfolioCoinsId.length === 0 && !loading) ? (
                 <div className="flex flex-col mx-auto max-w-fit mt-10 gap-4">
                   <h1 className="text-2xl">You haven't added anything to portfolio</h1>
                   <Button onClick={handleCloseModal} className="w-fit mx-auto" variant="blue">

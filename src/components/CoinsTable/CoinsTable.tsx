@@ -58,63 +58,65 @@ const CoinsTable = ({ assets, loading }:CoinsTableProps) => {
   const getThClass = (type: SortType) => `cursor-pointer ${activeSort === type ? 'underline text-[#0326A9]' : ''}`;
 
   return (
-    <div id="coinsTable" className="max-w-full mx-auto relative">
-      <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <table className="w-full max-h-[500px] h-full overflow-auto border-collapse text-left">
-        <thead className="text-left">
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th className={getThClass('price')} onClick={sortByPrice}>
-              Price
-            </th>
-            <th className={getThClass('volume')} onClick={sortBy24h}>
-              24h%
-            </th>
-            <th className={getThClass('marketCap')} onClick={sortByMarketCap}>
-              Market Cap(USD)
-            </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody className="relative max-h-[400px] h-[80px] min-h-[300px] overflow-auto">
-          {loading ? (
-            <tr className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <td>
-                <CircleLoader />
-              </td>
+    <>
+        <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <div id="coinsTable" className="max-w-full mx-auto relative overflow-x-auto">
+        <table className="w-full max-h-[500px] h-full overflow-auto border-collapse text-left">
+          <thead className="text-left">
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th className={getThClass('price')} onClick={sortByPrice}>
+                Price
+              </th>
+              <th className={getThClass('volume')} onClick={sortBy24h}>
+                24h%
+              </th>
+              <th className={getThClass('marketCap')} onClick={sortByMarketCap}>
+                Market Cap(USD)
+              </th>
+              <th></th>
             </tr>
-          ) : currentData.length > 0 ? (
-            currentData.map((asset, index) => (
-              <AssetItem
-                key={asset.id}
-                asset={asset}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                index={index}
-              />
-            ))
-          ) : (
-            <div className="absolute text-2xl text-center w-fit mx-auto right-0 left-0 top-4 bottom-0">
-              Nothing was found.
-            </div>
-          )}
-        </tbody>
-      </table>
-      {currentData.length === 10 && (
-        <div className="flex justify-between mt-4">
-          <Button onClick={handlePrevious} disabled={currentPage === 1}>
-            &lt;-
-          </Button>
-          <p>
-            Page {currentPage} of {totalPages}
-          </p>
-          <Button onClick={handleNext} disabled={currentPage === totalPages}>
-            -&gt;
-          </Button>
-        </div>
-      )}
-    </div>
+          </thead>
+          <tbody className="relative max-h-[400px] h-[80px] min-h-[300px] overflow-auto">
+            {loading ? (
+              <tr className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <td>
+                  <CircleLoader />
+                </td>
+              </tr>
+            ) : currentData.length > 0 ? (
+              currentData.map((asset, index) => (
+                <AssetItem
+                  key={asset.id}
+                  asset={asset}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                  index={index}
+                />
+              ))
+            ) : (
+              <div className="absolute text-2xl text-center w-fit mx-auto right-0 left-0 top-4 bottom-0">
+                Nothing was found.
+              </div>
+            )}
+          </tbody>
+        </table>
+      </div>
+        {currentData.length === 10 && (
+          <div className="flex justify-between mt-4">
+            <Button onClick={handlePrevious} disabled={currentPage === 1}>
+              &lt;-
+            </Button>
+            <p>
+              Page {currentPage} of {totalPages}
+            </p>
+            <Button onClick={handleNext} disabled={currentPage === totalPages}>
+              -&gt;
+            </Button>
+          </div>
+        )}
+    </>
   );
 };
 
