@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface InputProps {
   value: string;
@@ -21,13 +21,20 @@ const AddInput: React.FC<InputProps> = ({
   maxAmount,
   coinPrice,
 }) => {
+  const [isValid, setIsValid] = useState<boolean>(true);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (Number(event.target.value) === 0) {
+      onChange('');
+      return;
+    }
     if (
       (Number(event.target.value) > 0 || event.target.value === '') &&
       coinPrice * Number(event.target.value) >= minAmount &&
       coinPrice * Number(event.target.value) <= maxAmount
     ) {
       onChange(event.target.value);
+    } else {
+      setIsValid(false);
     }
   };
 
@@ -40,6 +47,9 @@ const AddInput: React.FC<InputProps> = ({
         onChange={handleChange}
         placeholder={placeholder}
       />
+      {isValid || (
+        <span className="text-red-500 text-sm">Максимальное количество монет: {Math.floor(maxAmount / coinPrice)}</span>
+      )}
     </div>
   );
 };
