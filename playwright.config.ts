@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './src/tests',
   timeout: 30000,
   use: {
-    trace: 'on', // Записывать трейс для каждого теста.
+    trace: 'on', 
   },
   projects: [
     { name: 'Chromium', use: { ...devices['Desktop Chrome'] } },

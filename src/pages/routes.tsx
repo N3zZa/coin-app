@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router';
 
-// Ленивая загрузка страниц (если нужно)
+// lazy page loading
 const HomePage = lazy(() => import('pages/Home/Home'));
 const ItemPage = lazy(() => import('pages/ItemPage/ItemPage'));
 const NotFoundPage = lazy(() => import('pages/NotFound/NotFound'));

@@ -5,7 +5,7 @@ type Props = {
   onClick: () => void;
 };
 
-const PortfolioInfo: React.FC<Props> = ({ onClick }) => {
+export const PortfolioInfo: React.FC<Props> = ({ onClick }) => {
   const context = useContext(CoinsContext);
 
   if (!context) {
@@ -43,4 +43,3 @@ const PortfolioInfo: React.FC<Props> = ({ onClick }) => {
   );
 };
 
-export default PortfolioInfo;

@@ -14,15 +14,15 @@ const Template: StoryFn<React.ComponentProps<typeof CircleLoader>> = (args) => <
 
 export const Default = Template.bind({});
 Default.args = {
-  size: 16,
+  size: "medium",
 };
 
 export const Small = Template.bind({});
 Small.args = {
-  size: 8,
+  size: "small",
 };
 
 export const Large = Template.bind({});
 Large.args = {
-  size: 32,
+  size: "large",
 };

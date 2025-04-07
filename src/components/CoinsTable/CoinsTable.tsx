@@ -1,8 +1,8 @@
-import CircleLoader from 'components/CircleLoader/CircleLoader';
-import { useEffect, useState } from 'react';
+import {CircleLoader} from 'components/CircleLoader/CircleLoader';
+import {useEffect, useState } from 'react';
 import { AssetItemModel } from 'types/AssetItemModel';
 import AssetItem from 'components/AssetItem/AssetItem';
-import Button from 'components/Button/Button';
+import {Button} from 'components/Button/Button';
 import SearchInput from './../SearchInput/SearchInput';
 
 type CoinsTableProps = {
@@ -57,9 +57,10 @@ const CoinsTable = ({ assets, loading }:CoinsTableProps) => {
 
   const getThClass = (type: SortType) => `cursor-pointer ${activeSort === type ? 'underline text-[#0326A9]' : ''}`;
 
+
   return (
     <>
-        <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <div id="coinsTable" className="max-w-full mx-auto relative overflow-x-auto">
         <table className="w-full max-h-[500px] h-full overflow-auto border-collapse text-left">
           <thead className="text-left">
@@ -82,7 +83,7 @@ const CoinsTable = ({ assets, loading }:CoinsTableProps) => {
             {loading ? (
               <tr className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <td>
-                  <CircleLoader />
+                  <CircleLoader size="large" />
                 </td>
               </tr>
             ) : currentData.length > 0 ? (
@@ -97,25 +98,25 @@ const CoinsTable = ({ assets, loading }:CoinsTableProps) => {
               ))
             ) : (
               <div className="absolute text-2xl text-center w-fit mx-auto right-0 left-0 top-4 bottom-0">
-                Nothing was found.
+                <h1>Nothing was found</h1>
               </div>
             )}
           </tbody>
         </table>
       </div>
-        {currentData.length === 10 && (
-          <div className="flex justify-between mt-4">
-            <Button onClick={handlePrevious} disabled={currentPage === 1}>
-              &lt;-
-            </Button>
-            <p>
-              Page {currentPage} of {totalPages}
-            </p>
-            <Button onClick={handleNext} disabled={currentPage === totalPages}>
-              -&gt;
-            </Button>
-          </div>
-        )}
+      {currentData.length === 10 && (
+        <div className="flex justify-between mt-4">
+          <Button onClick={handlePrevious} disabled={currentPage === 1}>
+            &lt;-
+          </Button>
+          <p>
+            Page {currentPage} of {totalPages}
+          </p>
+          <Button onClick={handleNext} disabled={currentPage === totalPages}>
+            -&gt;
+          </Button>
+        </div>
+      )}
     </>
   );
 };

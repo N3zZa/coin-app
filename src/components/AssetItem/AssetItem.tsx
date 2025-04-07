@@ -1,5 +1,5 @@
 import AddCoinModal from 'components/AddCoinModal/AddCoinModal';
-import Button from 'components/Button/Button';
+import {Button} from 'components/Button/Button';
 import { CoinsContext } from 'context/CoinsContext';
 import { routesPaths } from 'pages/routes';
 import React, { useContext, useState } from 'react';
@@ -35,10 +35,14 @@ const AssetItem = ({ asset, currentPage, itemsPerPage, index }: Props) => {
     removePortfolioCoin(asset.id);
   };
 
+  const handleNavigateCoinPage = () => {
+     navigate(`${routesPaths.coin}${asset.id}`, { state: { id: asset.id } })
+  }
+
   return (
     <>
       <tr
-        onClick={() => navigate(`${routesPaths.coin}${asset.id}`, { state: { id: asset.id } })}
+        onClick={handleNavigateCoinPage}
         key={asset.id}
         className="items-center border-y-[1px] border-[#41403E] h-[80px] hover:bg-[#1B1E27] cursor-pointer"
       >

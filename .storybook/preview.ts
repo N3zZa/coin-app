@@ -1,4 +1,4 @@
-import '../src/index.css'; // Подключение глобальных стилей с Tailwind
+import '../src/index.css'; // importin tailwind global styles
 import { Preview } from '@storybook/react';
 
 const preview: Preview = {

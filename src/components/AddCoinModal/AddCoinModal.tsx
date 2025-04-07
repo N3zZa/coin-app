@@ -1,4 +1,4 @@
-import Button from 'components/Button/Button';
+import {Button} from 'components/Button/Button';
 import { CoinsContext } from 'context/CoinsContext';
 import { Dispatch, SetStateAction, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { AssetItemModel } from 'types/AssetItemModel';

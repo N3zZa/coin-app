@@ -2,8 +2,8 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContai
 import { useLocation, useNavigate } from 'react-router';
 import { useFetchCoinData } from 'api/useFetchCoinData';
 import { useState } from 'react';
-import CircleLoader from 'components/CircleLoader/CircleLoader';
-import Button from 'components/Button/Button';
+import {CircleLoader} from 'components/CircleLoader/CircleLoader';
+import {Button} from 'components/Button/Button';
 import AddCoinModal from 'components/AddCoinModal/AddCoinModal';
 
 const ItemPage: React.FC = () => {
@@ -17,18 +17,25 @@ const ItemPage: React.FC = () => {
   const coinData = useFetchCoinData(state.id, 'coin');
   const asset = coinData.assets[0];
 
-  if (coinData.loading || asset === undefined) return <div>Loading...</div>;
+  if (coinData.loading || asset === undefined) return <CircleLoader size="large" />;
 
   const handleAddClick = () => {
     setIsOpenModal(true);
   };
 
+  const navigateBack = () => {
+    navigate(-1)
+  }
+
+  const handleInterval = (int: string) => {
+    setInterval(int as 'd1' | 'h12' | 'h1')
+  }
   return (
     <div className="w-full h-96 p-0 md:p-4">
       <AddCoinModal asset={asset} isOpen={isOpenModal} setIsOpen={setIsOpenModal} coinName={asset.name} />
       {coinData.error || (coinHistory.error && <h1>Error!</h1>)}
       <div className="mb-5">
-        <Button onClick={() => navigate(-1)} className="mb-6">
+        <Button onClick={navigateBack} className="mb-6">
           &lt;-
         </Button>
         <div className="flex items-center gap-2 m-auto">
@@ -54,11 +61,7 @@ const ItemPage: React.FC = () => {
       </div>
       <div className="flex gap-4 mb-4">
         {['d1', 'h12', 'h1'].map((int) => (
-          <Button
-            key={int}
-            variant={interval === int ? 'blue' : 'gray'}
-            onClick={() => setInterval(int as 'd1' | 'h12' | 'h1')}
-          >
+          <Button key={int} variant={interval === int ? 'blue' : 'gray'} onClick={() => handleInterval(int)}>
             {int}
           </Button>
         ))}

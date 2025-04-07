@@ -1,5 +1,5 @@
 import { fetchPortfolio } from 'api/fetchPortfolio';
-import Button from 'components/Button/Button';
+import {Button} from 'components/Button/Button';
 import CoinsTable from 'components/CoinsTable/CoinsTable';
 import { CoinsContext } from 'context/CoinsContext';
 import { Dispatch, SetStateAction, useCallback, useContext, useEffect, useRef, useState } from 'react';

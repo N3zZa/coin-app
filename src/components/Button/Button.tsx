@@ -7,7 +7,7 @@ type ButtonProps = {
   className?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button: React.FC<ButtonProps> = ({ children, variant = 'gray', className, ...props }) => {
+export const Button: React.FC<ButtonProps> = ({ children, variant = 'gray', className, ...props }) => {
   const buttonClasses = clsx(
     variant === 'blue' ? 'btn-blue' : 'btn-gray',
     className, // Переданные через className стили не перезаписываются, а объединяются
@@ -20,4 +20,3 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'gray', className, 
   );
 };
 
-export default Button;

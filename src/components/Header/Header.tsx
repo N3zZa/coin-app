@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import homeImg from 'assets/home.svg';
 import { Link } from 'react-router';
-import CircleLoader from 'components/CircleLoader/CircleLoader';
+import {CircleLoader} from 'components/CircleLoader/CircleLoader';
 import { CoinsContext } from 'context/CoinsContext';
 import PortfolioModal from 'components/PortfolioModal/PortfolioModal';
-import PortfolioInfo from 'components/PortfolioInfo/PortfolioInfo';
+import {PortfolioInfo} from 'components/PortfolioInfo/PortfolioInfo';
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const context = useContext(CoinsContext);
 
   if (!context) {
@@ -36,7 +36,7 @@ const Header: React.FC = () => {
         <ul className="flex items-center gap-3">
           {error && <div className="text-red-500">{error}</div>}
           {loading ? (
-            <CircleLoader size={10} />
+            <CircleLoader size={"small"} />
           ) : (
             assets.slice(0, 3).map((asset) => (
               <li
@@ -59,4 +59,3 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
